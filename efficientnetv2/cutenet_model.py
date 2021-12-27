@@ -995,7 +995,7 @@ class CuteNetModel(tf.keras.Model):
     """
     super().__init__(name=name)
     cfg = copy.deepcopy(hparams.base_config)
-    if model_name:
+    if effnet_model_name:
       cfg.override(effnetv2_configs.get_model_config(effnet_model_name))
     cfg.model.override(effnet_model_config)
     self.cfg = cfg
