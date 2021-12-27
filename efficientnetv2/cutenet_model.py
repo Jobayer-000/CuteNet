@@ -1044,12 +1044,12 @@ class CuteNetModel(tf.keras.Model):
     self.patch_embed_3 = PatchEmbed(
             img_size=48, patch_size=4, in_chans=self.in_chans, embed_dim=1024,
             norm_layer=self.norm_layer if self.patch_norm else None)
-     self.patch_embed_4 = PatchEmbed(
+    self.patch_embed_4 = PatchEmbed(
             img_size=24, patch_size=4,in_chans=self.in_chans, embed_dim=1024,
             norm_layer=self.norm_layer if self.patch_norm else None)
-     self.embeder = [self.patch_embed_1,self.patch_embed_2,self.patch_embed_3,self.patch_embed_4]
+    self.embeder = [self.patch_embed_1,self.patch_embed_2,self.patch_embed_3,self.patch_embed_4]
 
-        # absolute position embedding
+    # absolute position embedding
     if self.ape:
         initializer = tf.keras.initializers.TruncatedNormal(mean=0., stddev=.02)
         # TODO: Check to make sure that this variable is supposed to not be trainable
