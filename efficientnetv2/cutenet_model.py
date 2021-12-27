@@ -483,7 +483,7 @@ class PatchEmbed(Layer):
         return flops
 
 
-class ReversedPatchEmbed(layer):
+class ReversedPatchEmbed(Layer):
   def __init__(self,input, patch_size=4):
     super().__init__()
     self.patch_size=4
