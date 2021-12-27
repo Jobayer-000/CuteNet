@@ -1001,7 +1001,7 @@ class CuteNetModel(tf.keras.Model):
     self.cfg = cfg
     self._mconfig = cfg.model
     self.endpoints = None
-    
+    self.in_chans = in_chans
     self.img_size = img_size
     self.patch_size = patch_size
     self.num_classes = num_classes
