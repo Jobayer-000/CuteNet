@@ -1011,16 +1011,16 @@ class CuteNetModel(tf.keras.Model):
     self.patch_norm = patch_norm
     self.num_features = int(embed_dim * 2 ** (self.num_layers - 1))
     self.mlp_ratio = mlp_ratio  
-    self.qkv_bias = qkv_bias, 
-    self.qk_scale = qk_scale,
-    self.drop_rate = drop_rate,
-    self.attn_drop_rate = attn_drop_rate, 
-    self.drop_path_rate = drop_path_rate,
-    self.norm_layer = LayerNormalization, 
-    self.ape = ape, 
-    self.patch_norm = patch_norm,
-    self.depths = depths, 
-    self.num_heads = num_heads,
+    self.qkv_bias = qkv_bias
+    self.qk_scale = qk_scale
+    self.drop_rate = drop_rate
+    self.attn_drop_rate = attn_drop_rate 
+    self.drop_path_rate = drop_path_rate
+    self.norm_layer = LayerNormalization 
+    self.ape = ape
+    self.patch_norm = patch_norm
+    self.depths = depths
+    self.num_heads = num_heads
     self.window_size = window_size
     self._build()
 
