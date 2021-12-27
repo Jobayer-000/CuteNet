@@ -948,7 +948,7 @@ class Head(tf.keras.layers.Layer):
     return outputs
 
  
-class MyDense(layers.Dense):
+class MyDense(tf.keras.layers.Dense):
   def __init__(self,cnn=True):
     super().__init__()
     self.cnn = cnn
