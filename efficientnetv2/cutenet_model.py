@@ -471,7 +471,7 @@ class PatchEmbed(Layer):
         # FIXME look at relaxing size constraints
         assert H == self.img_size[0] and W == self.img_size[1], \
             f"Input image size ({H}*{W}) doesn't match model ({self.img_size[0]}*{self.img_size[1]})."
-        x = tf.transpose(tf.reshape(self.proj(x), [B, self.embed_dim, -1]), perm=[0, 2, 1])
+        x = tf.reshape(self.proj(x), [B, (H // self.patch_size[0]) * (W // self.patch_size[0]), self.embed_dim])
         if self.norm is not None:
             x = self.norm(x)
         return x
