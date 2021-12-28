@@ -920,16 +920,16 @@ class CuteNetModel(tf.keras.Model):
     patches_resolution = self.patch_embed.patches_resolution
     self.patches_resolution = patches_resolution
     self.patch_embed_1 = PatchEmbed(
-            img_size=192, patch_size=4, in_chans=self.in_chans, embed_dim=256,
+            img_size=(192,192), in_chans=self.in_chans, embed_dim=256,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.patch_embed_2 = PatchEmbed(
-            img_size=96, patch_size=4, in_chans=self.in_chans, embed_dim=512,
+            img_size=(96,96), in_chans=self.in_chans, embed_dim=512,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.patch_embed_3 = PatchEmbed(
-            img_size=48, patch_size=4, in_chans=self.in_chans, embed_dim=1024,
+            img_size=(48,48), in_chans=self.in_chans, embed_dim=1024,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.patch_embed_4 = PatchEmbed(
-            img_size=24, patch_size=4,in_chans=self.in_chans, embed_dim=1024,
+            img_size=(24,24), in_chans=self.in_chans, embed_dim=1024,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.embeder = [self.patch_embed_1,self.patch_embed_2,self.patch_embed_3,self.patch_embed_4]
 
