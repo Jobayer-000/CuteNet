@@ -459,7 +459,7 @@ class PatchEmbed(Layer):
         self.in_chans = in_chans
         self.embed_dim = embed_dim
 
-        self.proj = Conv2D(filters=embed_dim, kernel_size=patch_size, strides=patch_size, data_format="channels_first")
+        self.proj = Conv2D(filters=embed_dim, kernel_size=patch_size, strides=patch_size)
         if norm_layer is not None:
             # TODO: Check impact of epsilon
             self.norm = norm_layer(epsilon=1e-5)
@@ -467,7 +467,7 @@ class PatchEmbed(Layer):
             self.norm = None
 
     def call(self, x):
-        B, C, H, W = x.shape
+        B, H, W, C = x.shape
         # FIXME look at relaxing size constraints
         assert H == self.img_size[0] and W == self.img_size[1], \
             f"Input image size ({H}*{W}) doesn't match model ({self.img_size[0]}*{self.img_size[1]})."
