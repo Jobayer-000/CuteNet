@@ -377,7 +377,7 @@ class ReversedPatchEmbed(Layer):
   def __init__(self,input, patch_size=4):
     super().__init__()
     self.patch_size=4
-    self.trans_conv2d = layers.Conv2DTranspose(3, self.patch_size, self.patch_size)
+    self.trans_conv2d = tf.keras.layers.Conv2DTranspose(3, self.patch_size, self.patch_size)
   def call(self,input):
     B, L, C = input.shape
     x = tf.reshape(input, [B, np.sqrt(L), np.sqrt(L), C])
