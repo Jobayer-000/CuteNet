@@ -1036,7 +1036,9 @@ class CuteNetModel(tf.keras.Model):
 
     # Calls Stem layers
     outputs = self._stem(inputs, training)
+    print(0)
     swin_output = self.swin_input(outputs)
+    print(1)
     swin_output = self.patch_embed(swin_output)
     if self.ape:
             swin_output = swin_output + self.absolute_pos_embed
