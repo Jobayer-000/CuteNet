@@ -1067,7 +1067,7 @@ class CuteNetModel(tf.keras.Model):
         if reduction_idx > 1:
           swin_output = self.blocks[reduction_idx-2](swin_output)
           path_embed = self.embeder[reduction_idx-2](outputs)
-          trans_embed = self.TransposePatchEmbed(swin_output)
+          trans_embed = ReversedPatchEmbed(swin_output)
           outputs = layers.Concatenate()[trans_embed,outputs]
           outputs = MyDense()(outputs)
           swin_output = layers.Concatenate()[swin_output, patch_embed]
