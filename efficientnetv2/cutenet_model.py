@@ -1084,7 +1084,7 @@ class CuteNetModel(tf.keras.Model):
           path_embed = self.embeder[reduction_idx-2](outputs)
           trans_embed = self.reversed_embed[reduction_idx-2](swin_output)
           outputs = self.effnet_concat[reduction_idx-2]([trans_embed,outputs])
-          outputs = self.effnet_denes[reduction_idx-2](outputs)
+          outputs = self.effnet_dense[reduction_idx-2](outputs)
           swin_output = self.swin_concat[reduction_idx-2]([swin_output, patch_embed])
           outputs = self.swin_dense[reduction_idx-2](swin_output)
           
