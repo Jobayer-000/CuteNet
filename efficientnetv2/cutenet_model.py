@@ -368,10 +368,9 @@ class PatchEmbed(tf.keras.layers.Layer):
 
 
 class ReversedPatchEmbed(Layer):
-  def __init__(self,patch_size=4):
+  def __init__(self,patch_size=4, dim=256):
     super().__init__()
-    self.patch_size=4
-    self.trans_conv2d = tf.keras.layers.Conv2DTranspose(3, self.patch_size, self.patch_size)
+    self.trans_conv2d = tf.keras.layers.Conv2DTranspose(dim, patch_size, patch_size)
   def call(self,input):
     B, L, C = input.shape
     x = tf.reshape(input, [B, np.sqrt(L), np.sqrt(L), C])
@@ -832,16 +831,7 @@ class Head(tf.keras.layers.Layer):
     return outputs
 
  
-class MyDense(tf.keras.layers.Dense):
-  def __init__(self,cnn=True):
-    super().__init__()
-    self.cnn = cnn
-  def call(self, input):
-    if cnn:
-      B, W, H, C = tf.shape(input)
-    else:
-      B, L, C = tf.shape(input)
-    return self.call(C/2)
+
 
 
   
@@ -945,16 +935,16 @@ class CuteNetModel(tf.keras.Model):
     self.effnet_concat_4 = tf.keras.layers.Concatenate()
     self.effnet_concat = [self.effnet_concat_1, self.effnet_concat_2, self.effnet_concat_3, self.effnet_concat_4]
     
-    self.reversed_embed_1 = ReversedPatchEmbed()
-    self.reversed_embed_2 = ReversedPatchEmbed()
-    self.reversed_embed_3 = ReversedPatchEmbed()
-    self.reversed_embed_4 = ReversedPatchEmbed()
+    self.reversed_embed_1 = ReversedPatchEmbed(dim=48)
+    self.reversed_embed_2 = ReversedPatchEmbed(dim=80)
+    self.reversed_embed_3 = ReversedPatchEmbed(dim=176)
+    self.reversed_embed_4 = ReversedPatchEmbed(dim=512)
     self.reversed_embed = [self.reversed_embed_1, self.reversed_embed_2, self.reversed_embed_3, self.reversed_embed_4]
     
-    self.effnet_dense_1 = MyDense()
-    self.effnet_dense_2 = MyDense()
-    self.effnet_dense_3 = MyDense()
-    self.effnet_dense_4 = MyDense()
+    self.effnet_dense_1 = tf.keras.layers.Dense(48)
+    self.effnet_dense_2 = tf.keras.layers.Dense(80)
+    self.effnet_dense_3 = tf.keras.layers.Dense(176)
+    self.effnet_dense_4 = tf.keras.layers.Dense(512)
     self.effnet_dense = [self.effnet_dense_1, self.effnet_dense_2, self.effnet_dense_3, self.effnet_dense_4]
     
     self.swin_dense_1 = MyDense(cnn=False)
