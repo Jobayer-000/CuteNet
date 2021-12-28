@@ -947,10 +947,10 @@ class CuteNetModel(tf.keras.Model):
     self.effnet_dense_4 = tf.keras.layers.Dense(512)
     self.effnet_dense = [self.effnet_dense_1, self.effnet_dense_2, self.effnet_dense_3, self.effnet_dense_4]
     
-    self.swin_dense_1 = MyDense(cnn=False)
-    self.swin_dense_2 = MyDense(cnn=False)
-    self.swin_dense_3 = MyDense(cnn=False)
-    self.swin_dense_4 = MyDense(cnn=False)
+    self.swin_dense_1 = tf.keras.layers.Dense(256)
+    self.swin_dense_2 = tf.keras.layers.Dense(512)
+    self.swin_dense_3 = tf.keras.layers.Dense(1024)
+    self.swin_dense_4 = tf.keras.layers.Dense(1024)
     self.swin_dense = [self.swin_dense_1, self.swin_dense_2, self.swin_dense_3, self.swin_dense_4]
     self.final_concat = tf.keras.layers.Concatenate()
     
