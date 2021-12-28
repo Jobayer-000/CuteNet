@@ -56,7 +56,7 @@ def window_partition(x, window_size):
     print(0)
     B, H, W, C = x.shape.as_list()
     print(1)
-    x = tf.reshape(-1, shape=[B, H // window_size,
+    x = tf.reshape(x, shape=[B, H // window_size,
                    window_size, W // window_size, window_size, C])
     print(2)
     x = tf.transpose(x, perm=[0, 1, 3, 2, 4, 5])
