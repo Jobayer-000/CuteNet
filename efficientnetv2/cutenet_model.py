@@ -217,7 +217,7 @@ class SwinTransformerBlock(Layer):
         norm_layer (tf.keras.layers.Layer, optional): Normalization layer.  Default: tf.keras.layers.LayerNormalization
     """
 
-    def __init__(self, dim, input_resolution, num_heads, window_size=7, shift_size=0,
+    def __init__(self, dim, input_resolution, num_heads, window_size=12, shift_size=0,
                  mlp_ratio=4., qkv_bias=True, qk_scale=None, drop=0., attn_drop=0., drop_path=0.,
                  act_layer=Activation(tf.nn.gelu), norm_layer=LayerNormalization):
         super().__init__()
@@ -446,7 +446,7 @@ class PatchEmbed(Layer):
         norm_layer (tf.keras.layers.Layer, optional): Normalization layer. Default: None
     """
 
-    def __init__(self, img_size=224, patch_size=4, in_chans=3, embed_dim=96, norm_layer=None):
+    def __init__(self, img_size=(384,384), patch_size=(4,4) in_chans=3, embed_dim=128, norm_layer=None):
         super().__init__()
         img_size = to_2tuple(img_size)
         patch_size = to_2tuple(patch_size)
