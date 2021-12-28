@@ -938,7 +938,38 @@ class CuteNetModel(tf.keras.Model):
             img_size=(24,24), in_chans=self.in_chans, embed_dim=1024,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.embeder = [self.patch_embed_1,self.patch_embed_2,self.patch_embed_3,self.patch_embed_4]
-
+    
+    self.swin_concat_1 = tf.keras.layers.Concatenate()
+    self.swin_concat_2 = tf.keras.layers.Concatenate()
+    self.swin_concat_3 = tf.keras.layers.Concatenate()
+    self.swin_concat_4 = tf.keras.layers.Concatenate()
+    self.swin_concat = [self.swin_concat_1, self.swin_concat_2, self.swin_concat_3, self.swin_concat_4]
+    
+    self.effnet_concat_1 = tf.keras.layers.Concatenate()
+    self.effnet_concat_2 = tf.keras.layers.Concatenate()
+    self.effnet_concat_3 = tf.keras.layers.Concatenate()
+    self.effnet_concat_4 = tf.keras.layers.Concatenate()
+    self.effnet_concat = [self.effnet_concat_1, self.effnet_concat_2, self.effnet_concat_3, self.effnet_concat_4]
+    
+    self.reversed_embed_1 = ReversedPatchEmbed()
+    self.reversed_embed_2 = ReversedPatchEmbed()
+    self.reversed_embed_3 = ReversedPatchEmbed()
+    self.reversed_embed_4 = ReversedPatchEmbed()
+    self.reversed_embed = [self.reversed_embed_1, self.reversed_embed_2, self.reversed_embed_3, self.reversed_embed_4]
+    
+    self.effnet_dense_1 = MyDense()
+    self.effnet_dense_2 = MyDense()
+    self.effnet_dense_3 = MyDense()
+    self.effnet_dense_4 = MyDense()
+    self.effnet_dense = [self.effnet_dense_1, self.effnet_dense_2, self.effnet_dense_3, self.effnet_dense_4]
+    
+    self.swin_dense_1 = MyDense(cnn=False)
+    self.swin_dense_2 = MyDense(cnn=False)
+    self.swin_dense_3 = MyDense(cnn=False)
+    self.swin_dense_4 = MyDense(cnn=False)
+    self.swin_dense = [self.swin_dense_1, self.swin_dense_2, self.swin_dense_3, self.swin_dense_4]
+    self.final_concat = tf.keras.layers.Concatenate()
+    
     # absolute position embedding
     if self.ape:
         initializer = tf.keras.initializers.TruncatedNormal(mean=0., stddev=.02)
@@ -1067,11 +1098,11 @@ class CuteNetModel(tf.keras.Model):
         if reduction_idx > 1:
           swin_output = self.blocks[reduction_idx-2](swin_output)
           path_embed = self.embeder[reduction_idx-2](outputs)
-          trans_embed = ReversedPatchEmbed(swin_output)
-          outputs = tf.keras.layers.Concatenate()[trans_embed,outputs]
-          outputs = MyDense()(outputs)
-          swin_output = tf.keras.layers.Concatenate()[swin_output, patch_embed]
-          outputs = MyDense(cnn=False)(swin_output)
+          trans_embed = self.reversed_embed[reduction_idx-2](swin_output)
+          outputs = self.effnet_concat[reduction_idx-2]([trans_embed,outputs])
+          outputs = self.effnet_denes[reduction_idx-2](outputs)
+          swin_output = self.swin_concat[reduction_idx-2]([swin_output, patch_embed])
+          outputs = self.swin_dense[reduction_idx-2](swin_output)
           
       if block.endpoints:
         for k, v in block.endpoints.items():
@@ -1083,7 +1114,7 @@ class CuteNetModel(tf.keras.Model):
     # Head to obtain the final feature.
     outputs = self._head(outputs, training)
     swin_outputs = self.avgpool(swin_outputs)
-    outputs = tf.keras.layers.Concatenate()[outputs, swin_outputs]
+    outputs = self.final_concat([outputs, swin_outputs])
     self.endpoints.update(self._head.endpoints)
 
    
