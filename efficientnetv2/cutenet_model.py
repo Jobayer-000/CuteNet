@@ -1120,14 +1120,6 @@ class CuteNetModel(tf.keras.Model):
     # Head part.
     self._head = Head(self._mconfig)
 
-    # top part for classification
-    if self.include_top and self._mconfig.num_classes:
-      self._fc = tf.keras.layers.Dense(
-          self._mconfig.num_classes,
-          kernel_initializer=dense_kernel_initializer,
-          bias_initializer=tf.constant_initializer(self._mconfig.headbias or 0))
-    else:
-      self._fc = None
 
   def summary(self, input_shape=(224, 224, 3), **kargs):
     x = tf.keras.Input(shape=input_shape)
@@ -1200,10 +1192,7 @@ class CuteNetModel(tf.keras.Model):
     outputs = layers.Concatenate()[outputs, swin_outputs]
     self.endpoints.update(self._head.endpoints)
 
-    # Calls final dense layers and returns logits.
-    if self._fc:
-      with tf.name_scope('head'):  # legacy
-        outputs = self._fc(outputs)
+   
 
     if with_endpoints:  # Use for building sequential models.
       return [outputs] + list(
