@@ -1069,9 +1069,9 @@ class CuteNetModel(tf.keras.Model):
                                num_heads=self.num_heads[i_layer],
                                window_size=self.window_size,
                                mlp_ratio=self.mlp_ratio,
-                               qkv_bias=self.qkv_bias, qk_scale=selfl.qk_scale,
+                               qkv_bias=self.qkv_bias, qk_scale=self.qk_scale,
                                drop=self.drop_rate, attn_drop=self.attn_drop_rate,
-                               drop_path=dpr[sum(depths[:i_layer]):sum(depths[:i_layer + 1])],
+                               drop_path=dpr[sum(self.depths[:i_layer]):sum(self.depths[:i_layer + 1])],
                                norm_layer=self.norm_layer,
                                downsample=PatchMerging if (i_layer < self.num_layers - 1) else None)) for i_layer in range(self.num_layers)]
     
