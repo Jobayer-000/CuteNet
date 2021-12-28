@@ -446,7 +446,7 @@ class PatchEmbed(Layer):
         norm_layer (tf.keras.layers.Layer, optional): Normalization layer. Default: None
     """
 
-    def __init__(self, img_size=(384,384), patch_size=(4,4) in_chans=3, embed_dim=128, norm_layer=None):
+    def __init__(self, img_size=(384,384), patch_size=(4,4), in_chans=3, embed_dim=128, norm_layer=None):
         super().__init__()
         img_size = to_2tuple(img_size)
         patch_size = to_2tuple(patch_size)
