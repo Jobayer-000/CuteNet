@@ -1081,11 +1081,11 @@ class CuteNetModel(tf.keras.Model):
         self.endpoints['reduction_%s' % reduction_idx] = outputs
         if reduction_idx > 1:
           swin_output = self.blocks[reduction_idx-2](swin_output)
-          path_embed = self.embeder[reduction_idx-2](outputs)
-          trans_embed = self.reversed_embed[reduction_idx-2](swin_output)
-          outputs = self.effnet_concat[reduction_idx-2]([trans_embed,outputs])
+          effnet_embed = self.embeder[reduction_idx-2](outputs)
+          reversed_embed = self.reversed_embed[reduction_idx-2](swin_output)
+          outputs = self.effnet_concat[reduction_idx-2]([reversed_embed, outputs])
           outputs = self.effnet_dense[reduction_idx-2](outputs)
-          swin_output = self.swin_concat[reduction_idx-2]([swin_output, patch_embed])
+          swin_output = self.swin_concat[reduction_idx-2]([swin_output, effnet_embed])
           outputs = self.swin_dense[reduction_idx-2](swin_output)
           
       if block.endpoints:
