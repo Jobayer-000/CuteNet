@@ -1068,9 +1068,9 @@ class CuteNetModel(tf.keras.Model):
           swin_output = self.blocks[reduction_idx-2](swin_output)
           path_embed = self.embeder[reduction_idx-2](outputs)
           trans_embed = ReversedPatchEmbed(swin_output)
-          outputs = layers.Concatenate()[trans_embed,outputs]
+          outputs = tf.keras.layers.Concatenate()[trans_embed,outputs]
           outputs = MyDense()(outputs)
-          swin_output = layers.Concatenate()[swin_output, patch_embed]
+          swin_output = tf.keras.layers.Concatenate()[swin_output, patch_embed]
           outputs = MyDense(cnn=False)(swin_output)
           
       if block.endpoints:
@@ -1083,7 +1083,7 @@ class CuteNetModel(tf.keras.Model):
     # Head to obtain the final feature.
     outputs = self._head(outputs, training)
     swin_outputs = self.avgpool(swin_outputs)
-    outputs = layers.Concatenate()[outputs, swin_outputs]
+    outputs = tf.keras.layers.Concatenate()[outputs, swin_outputs]
     self.endpoints.update(self._head.endpoints)
 
    
