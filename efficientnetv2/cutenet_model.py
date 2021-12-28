@@ -373,7 +373,7 @@ class ReversedPatchEmbed(Layer):
     self.trans_conv2d = tf.keras.layers.Conv2DTranspose(dim, patch_size, patch_size)
   def call(self,input):
     B, L, C = input.shape
-    x = tf.reshape(input, [B, int(np.sqrt(L)), int(np.sqrt(L)), C])
+    x = tf.reshape(input, [-1, int(np.sqrt(L)), int(np.sqrt(L)), C])
     x = self.trans_conv2d(x)
     return x
 
