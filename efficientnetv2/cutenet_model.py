@@ -22,6 +22,7 @@ from tensorflow.keras.layers import (
     Dense,
     Activation
 )
+from tensorflow import keras
 from tensorflow.keras import Model, Sequential
 import tensorflow_addons as tfa
 import collections
