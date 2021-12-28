@@ -489,9 +489,9 @@ class ReversedPatchEmbed(Layer):
     super().__init__()
     self.patch_size=4
     self.trans_conv2d = layers.Conv2DTranspose(3, self.patch_size, self.patch_size)
-  def call(self,inputs):
-    B, L, C = tf.shape(input)
-    x = tf.reshape(input, [B, tf.cast(np.sqrt(L),tf.int32), tf.cast(np.sqrt(L),tf.int32),C])
+  def call(self,input):
+    B, L, C = input.shape
+    x = tf.reshape(input, [B, np.sqrt(L), np.sqrt(L), C])
     x = self.trans_conv2d(x)
     return x
 
@@ -1149,6 +1149,10 @@ class CuteNetModel(tf.keras.Model):
     # Calls Stem layers
     outputs = self._stem(inputs, training)
     swin_output = self.swin_input(outputs)
+    swin_output = self.patch_embed(swin_output)
+    if self.ape:
+            swin_output = swin_output + self.absolute_pos_embed
+        swin_output = self.pos_drop(swin_output)
     
     logging.info('Built stem: %s (%s)', outputs.shape, outputs.dtype)
     self.endpoints['stem'] = outputs
