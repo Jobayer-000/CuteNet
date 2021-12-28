@@ -53,6 +53,7 @@ class Mlp(tf.keras.layers.Layer):
 
 
 def window_partition(x, window_size):
+    print(0)
     B, H, W, C = x.shape().as_list()
     print(1)
     x = tf.reshape(-1, shape=[B, H // window_size,
