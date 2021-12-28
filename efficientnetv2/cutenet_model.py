@@ -1,4 +1,4 @@
-#All most all the code here have been taken from Automl and efficientnet open source implementations in github
+#All most all the code here have been taken from Automl and opensource implementations of swintransformer in github
 
 import copy
 import itertools
@@ -1152,7 +1152,7 @@ class CuteNetModel(tf.keras.Model):
     swin_output = self.patch_embed(swin_output)
     if self.ape:
             swin_output = swin_output + self.absolute_pos_embed
-        swin_output = self.pos_drop(swin_output)
+    swin_output = self.pos_drop(swin_output)
     
     logging.info('Built stem: %s (%s)', outputs.shape, outputs.dtype)
     self.endpoints['stem'] = outputs
