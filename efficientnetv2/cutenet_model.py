@@ -1062,7 +1062,7 @@ class CuteNetModel(tf.keras.Model):
     dpr = [x for x in np.linspace(0, self.drop_path_rate, sum(self.depths))]  # stochastic depth decay rule
 
     # build layers
-    self.blocks = [keras.models.Sequential(BasicLayer(dim=int(self.embed_dim * 2 ** i_layer),
+    self.blocks = [tf.keras.models.Sequential(BasicLayer(dim=int(self.embed_dim * 2 ** i_layer),
                                input_resolution=(patches_resolution[0] // (2 ** i_layer),
                                                  patches_resolution[1] // (2 ** i_layer)),
                                depth=self.depths[i_layer],
@@ -1079,7 +1079,7 @@ class CuteNetModel(tf.keras.Model):
         # TODO: Check impact of epsilon
     self.norm = self.norm_layer(epsilon=1e-5)
     self.avgpool = tfa.layers.AdaptiveAveragePooling1D(1) 
-    self.swin_input = layers.Conv2D(3,1)
+    self.swin_input = tf.keras.layers.Conv2D(3,1)
     
     
     """Builds a model."""
