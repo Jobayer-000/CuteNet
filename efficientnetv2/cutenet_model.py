@@ -54,7 +54,7 @@ class Mlp(tf.keras.layers.Layer):
 
 def window_partition(x, window_size):
     print(0)
-    B, H, W, C = x.shape().as_list()
+    B, H, W, C = x.shape.as_list()
     print(1)
     x = tf.reshape(-1, shape=[B, H // window_size,
                    window_size, W // window_size, window_size, C])
@@ -1036,9 +1036,8 @@ class CuteNetModel(tf.keras.Model):
 
     # Calls Stem layers
     outputs = self._stem(inputs, training)
-    print(0)
+   
     swin_output = self.swin_input(outputs)
-    print(1)
     swin_output = self.patch_embed(swin_output)
     if self.ape:
             swin_output = swin_output + self.absolute_pos_embed
