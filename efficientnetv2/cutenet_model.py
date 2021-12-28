@@ -1053,12 +1053,12 @@ class CuteNetModel(tf.keras.Model):
     if self.ape:
         initializer = tf.keras.initializers.TruncatedNormal(mean=0., stddev=.02)
         # TODO: Check to make sure that this variable is supposed to not be trainable
-        self.absolute_pos_embed = tf.Variable(initializer(shape = (1, num_patches, embed_dim)), trainable=False)
+        self.absolute_pos_embed = tf.Variable(initializer(shape = (1, num_patches, self.embed_dim)), trainable=False)
 
-    self.pos_drop = tf.keras.layers.Dropout(rate=drop_rate)
+    self.pos_drop = tf.keras.layers.Dropout(rate=self.drop_rate)
 
         # stochastic depth
-    dpr = [x for x in np.linspace(0, drop_path_rate, sum(depths))]  # stochastic depth decay rule
+    dpr = [x for x in np.linspace(0, self.drop_path_rate, sum(self.depths))]  # stochastic depth decay rule
 
     # build layers
     self.blocks = [keras.models.Sequential(BasicLayer(dim=int(self.embed_dim * 2 ** i_layer),
