@@ -53,17 +53,11 @@ class Mlp(tf.keras.layers.Layer):
 
 
 def window_partition(x, window_size):
-    print(0)
     B, H, W, C = x.shape.as_list()
-    print(1)
-    print(x)
     x = tf.reshape(x, shape=[-1, H // window_size,
                    window_size, W // window_size, window_size, C])
-    print(2)
     x = tf.transpose(x, perm=[0, 1, 3, 2, 4, 5])
-    print(3)
     windows = tf.reshape(x, shape=[-1, window_size, window_size, C])
-    print(4)
     return windows
 
 
@@ -374,7 +368,7 @@ class PatchEmbed(tf.keras.layers.Layer):
 
 
 class ReversedPatchEmbed(Layer):
-  def __init__(self,input, patch_size=4):
+  def __init__(self,patch_size=4):
     super().__init__()
     self.patch_size=4
     self.trans_conv2d = tf.keras.layers.Conv2DTranspose(3, self.patch_size, self.patch_size)
