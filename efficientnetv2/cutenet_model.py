@@ -966,7 +966,7 @@ class CuteNetModel(tf.keras.Model):
     dpr = [x for x in np.linspace(0, self.drop_path_rate, sum(self.depths))]  # stochastic depth decay rule
 
     # build layers
-    self.blocks = [tf.keras.models.Sequential(BasicLayer(dim=int(self.embed_dim * 2 ** i_layer),
+    self._swin_blocks = [tf.keras.models.Sequential(BasicLayer(dim=int(self.embed_dim * 2 ** i_layer),
                                input_resolution=(patches_resolution[0] // (2 ** i_layer),
                                                  patches_resolution[1] // (2 ** i_layer)),
                                depth=self.depths[i_layer],
@@ -987,7 +987,7 @@ class CuteNetModel(tf.keras.Model):
     
     
     """Builds a model."""
-    self._blocks = []
+    self._effnet_blocks = []
 
     # Stem part.
     self._stem = Stem(self._mconfig, self._mconfig.blocks_args[0].input_filters)
@@ -1010,7 +1010,7 @@ class CuteNetModel(tf.keras.Model):
 
       # The first block needs to take care of stride and filter size increase.
       conv_block = {0: MBConvBlock, 1: FusedMBConvBlock}[block_args.conv_type]
-      self._blocks.append(
+      self._effnet_blocks.append(
           conv_block(block_args, self._mconfig, name=block_name()))
       if block_args.num_repeat > 1:  # rest of blocks with the same block_arg
         # pylint: disable=protected-access
@@ -1018,7 +1018,7 @@ class CuteNetModel(tf.keras.Model):
         block_args.strides = 1
         # pylint: enable=protected-access
       for _ in range(block_args.num_repeat - 1):
-        self._blocks.append(
+        self._effnet_blocks.append(
             conv_block(block_args, self._mconfig, name=block_name()))
 
     # Head part.
@@ -1063,10 +1063,10 @@ class CuteNetModel(tf.keras.Model):
     self.endpoints['stem'] = outputs
 
     # Calls blocks.
-    for idx, block in enumerate(self._blocks):
+    for idx, block in enumerate(self._effnet_blocks):
       is_reduction = False  # reduction flag for blocks after the stem layer
       if ((idx == len(self._blocks) - 1) or
-          self._blocks[idx + 1].block_args.strides > 1):
+          self._effnet_blocks[idx + 1].block_args.strides > 1):
         is_reduction = True
         reduction_idx += 1
 
@@ -1080,7 +1080,7 @@ class CuteNetModel(tf.keras.Model):
       if is_reduction:
         self.endpoints['reduction_%s' % reduction_idx] = outputs
         if reduction_idx > 1:
-          swin_output = self.blocks[reduction_idx-2](swin_output)
+          swin_output = self._swin_blocks[reduction_idx-2](swin_output)
           effnet_embed = self.embeder[reduction_idx-2](outputs)
           reversed_embed = self.reversed_embed[reduction_idx-2](swin_output)
           outputs = self.effnet_concat[reduction_idx-2]([reversed_embed, outputs])
