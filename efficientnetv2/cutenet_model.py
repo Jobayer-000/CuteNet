@@ -1065,7 +1065,7 @@ class CuteNetModel(tf.keras.Model):
     # Calls blocks.
     for idx, block in enumerate(self._effnet_blocks):
       is_reduction = False  # reduction flag for blocks after the stem layer
-      if ((idx == len(self._blocks) - 1) or
+      if ((idx == len(self._effnet_blocks) - 1) or
           self._effnet_blocks[idx + 1].block_args.strides > 1):
         is_reduction = True
         reduction_idx += 1
