@@ -1092,7 +1092,7 @@ class CuteNetModel(tf.keras.Model):
     outputs = self._head(outputs, training)
     swin_outputs = self.norm(swin_outputs)
     swin_outputs = self.avgpool(swin_outputs)
-    swin_outputs = tf.reshape(swin_oututs, [swin_outputs.shape[0], swin_outputs.shape[-1]])
+    swin_outputs = tf.reshape(swin_outputs, [swin_outputs.shape[0], swin_outputs.shape[-1]])
     outputs = self.final_concat([outputs, swin_outputs])
     self.endpoints.update(self._head.endpoints)
 
