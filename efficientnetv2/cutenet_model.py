@@ -974,7 +974,7 @@ class CuteNetModel(tf.keras.Model):
 
         # TODO: Check impact of epsilon
     self.norm = self.norm_layer(epsilon=1e-5)
-    self.avgpool = tf.keras.layers.GlobalAveragePooling1D(1) 
+    self.avgpool = tf.keras.layers.GlobalAveragePooling1D() 
     self.swin_input = tf.keras.layers.Conv2D(3,1)
     
     
