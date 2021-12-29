@@ -1053,11 +1053,11 @@ class CuteNetModel(tf.keras.Model):
     # Calls Stem layers
     outputs = self._stem(inputs, training)
    
-    swin_output = self.swin_input(outputs)
-    swin_output = self.patch_embed(swin_output)
+    swin_outputs = self.swin_input(outputs)
+    swin_outputs = self.patch_embed(swin_outputs)
     if self.ape:
-            swin_output = swin_output + self.absolute_pos_embed
-    swin_output = self.pos_drop(swin_output)
+            swin_outputs = swin_outputs + self.absolute_pos_embed
+    swin_outputs = self.pos_drop(swin_outputs)
     
     logging.info('Built stem: %s (%s)', outputs.shape, outputs.dtype)
     self.endpoints['stem'] = outputs
@@ -1080,13 +1080,13 @@ class CuteNetModel(tf.keras.Model):
       if is_reduction:
         self.endpoints['reduction_%s' % reduction_idx] = outputs
         if reduction_idx > 1:
-          swin_output = self._swin_blocks[reduction_idx-2](swin_output)
+          swin_outputs = self._swin_blocks[reduction_idx-2](swin_outputs)
           effnet_embed = self.embeder[reduction_idx-2](outputs)
-          reversed_embed = self.reversed_embed[reduction_idx-2](swin_output)
+          reversed_embed = self.reversed_embed[reduction_idx-2](swin_outputs)
           outputs = self.effnet_concat[reduction_idx-2]([reversed_embed, outputs])
           outputs = self.effnet_dense[reduction_idx-2](outputs)
-          swin_output = self.swin_concat[reduction_idx-2]([swin_output, effnet_embed])
-          outputs = self.swin_dense[reduction_idx-2](swin_output)
+          swin_outputs = self.swin_concat[reduction_idx-2]([swin_outputs, effnet_embed])
+          swin_outputs = self.swin_dense[reduction_idx-2](swin_outputs)
           
       if block.endpoints:
         for k, v in block.endpoints.items():
