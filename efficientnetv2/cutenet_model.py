@@ -1052,6 +1052,7 @@ class CuteNetModel(tf.keras.Model):
 
     # Calls Stem layers
     outputs = self._stem(inputs, training)
+    print(0)
    
     swin_outputs = self.swin_input(outputs)
     swin_outputs = self.patch_embed(swin_outputs)
@@ -1080,6 +1081,7 @@ class CuteNetModel(tf.keras.Model):
       if is_reduction:
         self.endpoints['reduction_%s' % reduction_idx] = outputs
         if reduction_idx > 1:
+            print(1)
           swin_outputs = self._swin_blocks[reduction_idx-2](swin_outputs)
           effnet_embed = self.embeder[reduction_idx-2](outputs)
           reversed_embed = self.reversed_embed[reduction_idx-2](swin_outputs)
@@ -1087,6 +1089,7 @@ class CuteNetModel(tf.keras.Model):
           outputs = self.effnet_dense[reduction_idx-2](outputs)
           swin_outputs = self.swin_concat[reduction_idx-2]([swin_outputs, effnet_embed])
           swin_outputs = self.swin_dense[reduction_idx-2](swin_outputs)
+        print(2)
           
       if block.endpoints:
         for k, v in block.endpoints.items():
