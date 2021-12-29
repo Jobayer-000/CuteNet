@@ -1071,7 +1071,7 @@ class CuteNetModel(tf.keras.Model):
       self.endpoints['block_%s' % idx] = outputs
       if is_reduction:
         self.endpoints['reduction_%s' % reduction_idx] = outputs
-        if reduction_idx > 1:
+        if reduction_idx > 1 <5:
           swin_outputs = self._swin_blocks[reduction_idx-2](swin_outputs)
           effnet_embed = self.embeder[reduction_idx-2](outputs)
           reversed_embed = self.reversed_embed[reduction_idx-2](swin_outputs)
