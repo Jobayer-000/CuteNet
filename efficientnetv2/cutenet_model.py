@@ -107,7 +107,7 @@ class WindowAttention(tf.keras.layers.Layer):
         self.built = True
 
     def call(self, x, mask=None):
-        B_, N, C = x.get_shape().as_list()
+        B_, N, C = tf.shape(x).as_list()
         qkv = tf.transpose(tf.reshape(self.qkv(
             x), shape=[B_, N, 3, self.num_heads, C // self.num_heads]), perm=[2, 0, 3, 1, 4])
         q, k, v = qkv[0], qkv[1], qkv[2]
@@ -124,7 +124,7 @@ class WindowAttention(tf.keras.layers.Layer):
 
         if mask is not None:
             nW = mask.get_shape()[0]  # tf.shape(mask)[0]
-            attn = tf.reshape(attn, shape=[B_ // nW, nW, self.num_heads, N, N]) + tf.cast(
+            attn = tf.reshape(attn, shape=[-1, nW, self.num_heads, N, N]) + tf.cast(
                 tf.expand_dims(tf.expand_dims(mask, axis=1), axis=0), tf.bfloat16)
             attn = tf.reshape(attn, shape=[-1, self.num_heads, N, N])
             attn = tf.nn.softmax(attn, axis=-1)
@@ -134,7 +134,7 @@ class WindowAttention(tf.keras.layers.Layer):
         attn = self.attn_drop(attn)
 
         x = tf.transpose((attn @ v), perm=[0, 2, 1, 3])
-        x = tf.reshape(x, shape=[B_, N, C])
+        x = tf.reshape(x, shape=[-1, N, C])
         x = self.proj(x)
         x = self.proj_drop(x)
         return x
