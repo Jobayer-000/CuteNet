@@ -1090,6 +1090,7 @@ class CuteNetModel(tf.keras.Model):
 
     # Head to obtain the final feature.
     outputs = self._head(outputs, training)
+    swin_outputs = self.norm(swin_outputs)
     swin_outputs = self.avgpool(swin_outputs)
     outputs = self.final_concat([outputs, swin_outputs])
     self.endpoints.update(self._head.endpoints)
