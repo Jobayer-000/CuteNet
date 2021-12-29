@@ -335,7 +335,7 @@ class BasicLayer(tf.keras.layers.Layer):
 
 class PatchEmbed(tf.keras.layers.Layer):
     def __init__(self, img_size=(224, 224), patch_size=(4, 4), in_chans=3, embed_dim=96, norm_layer=None):
-        super().__init__(name='patch_embed')
+        super().__init__()
         patches_resolution = [img_size[0] //
                               patch_size[0], img_size[1] // patch_size[1]]
         self.img_size = img_size
