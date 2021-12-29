@@ -1073,7 +1073,7 @@ class CuteNetModel(tf.keras.Model):
       survival_prob = self._mconfig.survival_prob
       if survival_prob:
         drop_rate = 1.0 - survival_prob
-        survival_prob = 1.0 - drop_rate * float(idx) / len(self._blocks)
+        survival_prob = 1.0 - drop_rate * float(idx) / len(self._effnet_blocks)
         logging.info('block_%s survival_prob: %s', idx, survival_prob)
       outputs = block(outputs, training=training, survival_prob=survival_prob)
       self.endpoints['block_%s' % idx] = outputs
