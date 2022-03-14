@@ -62,7 +62,7 @@ def window_partition(x, window_size):
 
 
 def window_reverse(windows, window_size, H, W, C):
-    B = int(windows.shape[0] / (H * W / window_size / window_size))
+    
     x = tf.reshape(windows, shape=[-1, H // window_size,
                    W // window_size, window_size, window_size, C])
     x = tf.transpose(x, perm=[0, 1, 3, 2, 4, 5])
