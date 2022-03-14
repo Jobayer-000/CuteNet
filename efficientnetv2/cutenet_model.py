@@ -231,7 +231,7 @@ class SwinTransformerBlock(tf.keras.layers.Layer):
 
         shortcut = x
         x = self.norm1(x)
-        x = tf.reshape(x, shape=[B, H, W, C])
+        x = tf.reshape(x, shape=[-1, H, W, C])
 
         # cyclic shift
         if self.shift_size > 0:
@@ -259,7 +259,7 @@ class SwinTransformerBlock(tf.keras.layers.Layer):
                         self.shift_size, self.shift_size], axis=[1, 2])
         else:
             x = shifted_x
-        x = tf.reshape(x, shape=[B, H * W, C])
+        x = tf.reshape(x, shape=[-1, H * W, C])
 
         # FFN
         x = shortcut + self.drop_path(x)
