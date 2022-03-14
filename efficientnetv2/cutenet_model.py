@@ -110,7 +110,7 @@ class WindowAttention(tf.keras.layers.Layer):
     def call(self, x, mask=None):
         B_, N, C = x.shape
         qkv = tf.transpose(tf.reshape(self.qkv(
-            x), shape=[B_, N, 3, self.num_heads, C // self.num_heads]), perm=[2, 0, 3, 1, 4])
+            x), shape=[-1, N, 3, self.num_heads, C // self.num_heads]), perm=[2, 0, 3, 1, 4])
         q, k, v = qkv[0], qkv[1], qkv[2]
 
         q = q * self.scale
