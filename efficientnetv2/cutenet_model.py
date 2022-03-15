@@ -911,13 +911,13 @@ class CuteNetModel(tf.keras.Model):
     patches_resolution = self.patch_embed.patches_resolution
     self.patches_resolution = patches_resolution
     self.patch_embed_1 = PatchEmbed(
-            img_size=(192,192), in_chans=self.in_chans, embed_dim=192,
+            img_size=(112,112), in_chans=self.in_chans, embed_dim=192,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.patch_embed_2 = PatchEmbed(
-            img_size=(96,96), in_chans=self.in_chans, embed_dim=384,
+            img_size=(56,56), in_chans=self.in_chans, embed_dim=384,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.patch_embed_3 = PatchEmbed(
-            img_size=(48,48), in_chans=self.in_chans, embed_dim=768,
+            img_size=(28,28), in_chans=self.in_chans, embed_dim=768,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.embeder = [self.patch_embed_1,self.patch_embed_2,self.patch_embed_3]
     
