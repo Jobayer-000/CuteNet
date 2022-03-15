@@ -852,7 +852,7 @@ class CuteNetModel(tf.keras.Model):
                effnet_model_config=None,
                name='cutenet',
               
-               img_size=(384,384), patch_size=(4,4), in_chans=3, num_classes=1000,
+               img_size=(224,224), patch_size=(4,4), in_chans=3, num_classes=1000,
                  embed_dim=96, depths=[2, 2, 18, 2], num_heads=[3, 6, 12, 24],
                  window_size=7, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,
