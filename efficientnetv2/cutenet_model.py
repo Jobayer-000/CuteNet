@@ -848,7 +848,7 @@ class CuteNetModel(tf.keras.Model):
     Reference: https://arxiv.org/abs/1807.11626
   """
   def __init__(self,
-               effnet_model_name='efficientnetv2-s',
+               effnet_model_name='efficientnetv2-m',
                effnet_model_config=None,
                name='cutenet',
               
