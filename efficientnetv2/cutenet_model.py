@@ -832,7 +832,7 @@ class Head(tf.keras.layers.Layer):
     return outputs
 
  
-Class DenseWithBN(tf.keras.layers.Layer):
+class DenseWithBN(tf.keras.layers.Layer):
     def __init__(self, units, **kwargs):
         super().__init__(**kwargs)
         self.dense_lr = keras.layers.Dense(units)
