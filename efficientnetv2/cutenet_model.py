@@ -839,7 +839,7 @@ class DenseWithBN(tf.keras.layers.Layer):
         self._norm = keras.layers.BatchNormalization()
     
     def call(self, inputs):
-        return tf.nn.relu(self._norm(self.dense_lr(inputs)))
+        return tf.nn.silu(self._norm(self.dense_lr(inputs)))
         
         
 
@@ -984,7 +984,7 @@ class CuteNetModel(tf.keras.Model):
     
 
         # TODO: Check impact of epsilon
-    self.norm = self.norm_layer(epsilon=1e-5)
+    self.norm = tf.keras.layers.BatchNormalization()
     self.avgpool = tf.keras.layers.GlobalAveragePooling1D() 
     self.swin_input = tf.keras.layers.Conv2D(3,1)
     
