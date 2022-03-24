@@ -945,14 +945,14 @@ class CuteNetModel(tf.keras.Model):
     self.reversed_embed_3 = ReversedPatchEmbed(dim=176)
     self.reversed_embed = [self.reversed_embed_1, self.reversed_embed_2, self.reversed_embed_3]
     
-    self.effnet_dense_1 = tf.keras.layers.Dense(48)
-    self.effnet_dense_2 = tf.keras.layers.Dense(80)
-    self.effnet_dense_3 = tf.keras.layers.Dense(176)
+    self.effnet_dense_1 = DenseWithBN(48)
+    self.effnet_dense_2 = DenseWithBN(80)
+    self.effnet_dense_3 = DenseWithBN(176)
     self.effnet_dense = [self.effnet_dense_1, self.effnet_dense_2, self.effnet_dense_3]
     
-    self.swin_dense_1 = tf.keras.layers.Dense(192)
-    self.swin_dense_2 = tf.keras.layers.Dense(384)
-    self.swin_dense_3 = tf.keras.layers.Dense(768)
+    self.swin_dense_1 = DenseWithBN(192)
+    self.swin_dense_2 = DenseWithBN(384)
+    self.swin_dense_3 = DenseWithBN(768)
     self.swin_dense = [self.swin_dense_1, self.swin_dense_2, self.swin_dense_3]
     self.final_concat = tf.keras.layers.Concatenate()
     
