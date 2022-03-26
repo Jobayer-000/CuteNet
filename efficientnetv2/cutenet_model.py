@@ -1027,12 +1027,6 @@ class CuteNetModel(tf.keras.Model):
     # Head part.
     self._head = Head(self._mconfig)
 
-
-  def summary(self, input_shape=(224, 224, 3), **kargs):
-    x = tf.keras.Input(shape=input_shape)
-    model = tf.keras.Model(inputs=[x], outputs=self.call(x, training=True))
-    return model.summary()
-
   def get_model_with_inputs(self, inputs, **kargs):
     model = tf.keras.Model(
         inputs=[inputs], outputs=self.call(inputs, training=True))
