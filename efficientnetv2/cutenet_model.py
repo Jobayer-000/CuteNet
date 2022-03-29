@@ -862,7 +862,7 @@ class CuteNetModel(tf.keras.Model):
                name='cutenet',
               
                input_size=(384, 384), window_size=12, embed_dim=192, 
-               depths=[2, 2, 18, 2], num_heads=[6, 12, 24, 48], in_chans=24
+               depths=[2, 2, 18, 2], num_heads=[6, 12, 24, 48], in_chans=24,
                  window_size=7, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,
                  norm_layer=LayerNormalization, ape=False, patch_norm=True,
@@ -986,7 +986,7 @@ class CuteNetModel(tf.keras.Model):
         # TODO: Check impact of epsilon
     self.norm = tf.keras.layers.BatchNormalization()
     self.avgpool = tf.keras.layers.GlobalAveragePooling1D() 
-    self.swin_input = tf.keras.layers.Conv2D(3,1)
+    
     
     
     """Builds a model."""
