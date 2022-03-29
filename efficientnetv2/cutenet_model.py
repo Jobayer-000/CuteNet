@@ -860,9 +860,9 @@ class CuteNetModel(tf.keras.Model):
                effnet_model_name='efficientnetv2-m',
                effnet_model_config=None,
                name='cutenet',
-              
-               img_size=(384, 384), window_size=12, embed_dim=192, patch_size=(4, 4),
-               depths=[2, 2, 18, 2], num_heads=[6, 12, 24, 48], in_chans=24,
+               img_size=(384, 384), window_size=12, embed_dim=128, 
+               depths=[2, 2, 18, 2], num_heads=[4, 8, 16, 32]), 
+                patch_size=(4, 4),in_chans=24,
                  mlp_ratio=4., qkv_bias=True, qk_scale=None, num_classes=1000,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,
                  norm_layer=LayerNormalization, ape=False, patch_norm=True,
@@ -920,13 +920,13 @@ class CuteNetModel(tf.keras.Model):
     patches_resolution = self.patch_embed.patches_resolution
     self.patches_resolution = patches_resolution
     self.patch_embed_1 = PatchEmbed(
-            img_size=(192,192), in_chans=self.in_chans, embed_dim=384,
+            img_size=(192,192), in_chans=self.in_chans, embed_dim=self.embed_dim*2,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.patch_embed_2 = PatchEmbed(
-            img_size=(96,96), in_chans=self.in_chans, embed_dim=768,
+            img_size=(96,96), in_chans=self.in_chans, embed_dim=self.embed_dim*4,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.patch_embed_3 = PatchEmbed(
-            img_size=(48,48), in_chans=self.in_chans, embed_dim=1536,
+            img_size=(48,48), in_chans=self.in_chans, embed_dim=self.embed_dim*8,
             norm_layer=self.norm_layer if self.patch_norm else None)
     self.embeder = [self.patch_embed_1,self.patch_embed_2,self.patch_embed_3]
     
@@ -950,9 +950,9 @@ class CuteNetModel(tf.keras.Model):
     self.effnet_dense_3 = DenseWithBN(176)
     self.effnet_dense = [self.effnet_dense_1, self.effnet_dense_2, self.effnet_dense_3]
     
-    self.swin_dense_1 = DenseWithBN(384)
-    self.swin_dense_2 = DenseWithBN(768)
-    self.swin_dense_3 = DenseWithBN(1536)
+    self.swin_dense_1 = DenseWithBN(self.embed_dim*2)
+    self.swin_dense_2 = DenseWithBN(self.embed_dim*4)
+    self.swin_dense_3 = DenseWithBN(self.embed_dim*8)
     self.swin_dense = [self.swin_dense_1, self.swin_dense_2, self.swin_dense_3]
     self.final_concat = tf.keras.layers.Concatenate()
     
