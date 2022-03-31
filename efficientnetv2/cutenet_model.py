@@ -945,14 +945,14 @@ class CuteNetModel(tf.keras.Model):
     self.reversed_embed_3 = ReversedPatchEmbed(dim=176)
     self.reversed_embed = [self.reversed_embed_1, self.reversed_embed_2, self.reversed_embed_3]
     
-    self.effnet_dense_1 = DenseWithBN(48)
-    self.effnet_dense_2 = DenseWithBN(80)
-    self.effnet_dense_3 = DenseWithBN(176)
+    self.effnet_dense_1 =  tf.keras.layers.Dense(48)
+    self.effnet_dense_2 = tf.keras.layers.Dense(80)
+    self.effnet_dense_3 = tf.keras.layers.Dense(176)
     self.effnet_dense = [self.effnet_dense_1, self.effnet_dense_2, self.effnet_dense_3]
     
-    self.swin_dense_1 = DenseWithBN(self.embed_dim*2)
-    self.swin_dense_2 = DenseWithBN(self.embed_dim*4)
-    self.swin_dense_3 = DenseWithBN(self.embed_dim*8)
+    self.swin_dense_1 = tf.keras.layers.Dense(self.embed_dim*2)
+    self.swin_dense_2 = tf.keras.layers.Dense(self.embed_dim*4)
+    self.swin_dense_3 = tf.keras.layers.Dense(self.embed_dim*8)
     self.swin_dense = [self.swin_dense_1, self.swin_dense_2, self.swin_dense_3]
     self.final_concat = tf.keras.layers.Concatenate()
     
@@ -1093,8 +1093,6 @@ class CuteNetModel(tf.keras.Model):
     self.endpoints['features'] = outputs
 
     # Head to obtain the final feature.
-    outputs = self._head(outputs, training)
-    swin_outputs = self.norm(swin_outputs)
     swin_outputs = self.avgpool(swin_outputs)
     outputs = self.final_concat([outputs, swin_outputs])
     self.endpoints.update(self._head.endpoints)
