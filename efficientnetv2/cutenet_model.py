@@ -1026,7 +1026,7 @@ class CuteNetModel(tf.keras.Model):
 
     # Head part.
     self._head = Head(self._mconfig)
-
+    
   def get_model_with_inputs(self, inputs, **kargs):
     model = tf.keras.Model(
         inputs=[inputs], outputs=self.call(inputs, training=True))
@@ -1093,6 +1093,7 @@ class CuteNetModel(tf.keras.Model):
     self.endpoints['features'] = outputs
 
     # Head to obtain the final feature.
+    outputs = self._head(outputs)
     swin_outputs = self.avgpool(swin_outputs)
     outputs = self.final_concat([outputs, swin_outputs])
     self.endpoints.update(self._head.endpoints)
